@@ -1,15 +1,9 @@
 package skylinetools.util;
 
 import beast.core.*;
-import beast.core.parameter.Parameter;
-import beast.core.parameter.RealParameter;
-import beast.evolution.tree.Node;
-import beast.evolution.tree.Tree;
-import beast.util.HeapSort;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import beast.core.parameter.*;
+import beast.evolution.tree.*;
+import java.util.*;
 
 
 /**
@@ -26,6 +20,7 @@ import java.util.List;
  *
  */
 public class TreeSlicer extends RealParameter {
+    static final double EPS = 1e-7;
 
     public Input<Tree> treeInput =
             new Input<>("tree", "Tree over which to calculate the slice", Input.Validate.REQUIRED);
@@ -68,8 +63,6 @@ public class TreeSlicer extends RealParameter {
          */
         public static void update(Tree tree) {
 
-            final double EPS = 1e-7;
-
             double height;
 
             TMRCA.height = tree.getRoot().getHeight();
@@ -85,7 +78,7 @@ public class TreeSlicer extends RealParameter {
 
                     if (height > OLDESTSAMPLE.height) {
                         // Need to adjust so BDSKY likelihood nonzero
-                        OLDESTSAMPLE.height = height+EPS;
+                        OLDESTSAMPLE.height = height + EPS;
                         OLDESTSAMPLE.date   = N.getDate();
                     }
 
